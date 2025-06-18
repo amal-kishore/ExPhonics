@@ -161,6 +161,8 @@ exphonics --all \
 exphonics --sweep coupling --verbose
 exphonics --sweep temperature --coupling 0.3
 exphonics --calculate binding_energies --temperature 200
+exphonics --calculate oscillator_strengths
+exphonics --plot oscillator_strengths
 ```
 
 ### Method 2: Code Modification (For Tight-Binding Parameters)

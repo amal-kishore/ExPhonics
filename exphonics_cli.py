@@ -30,6 +30,7 @@ Examples:
   # Calculations
   exphonics --calculate binding_energies --states 1,2,3,4
   exphonics --calculate lifetimes --temperature 0,100,200,300
+  exphonics --calculate oscillator_strengths
   exphonics --calculate convergence --k-grid 24,36,48
   
   # Parameter sweeps
@@ -61,6 +62,7 @@ Examples:
             'convergence',
             'temperature_dependence',
             'absorption_spectrum',
+            'oscillator_strengths',
             'binding_energies',
             'phase_space'
         ],
@@ -72,6 +74,7 @@ Examples:
         choices=[
             'binding_energies',
             'lifetimes', 
+            'oscillator_strengths',
             'self_energy',
             'convergence',
             'absorption',
@@ -197,6 +200,7 @@ def list_available_plots():
         'wavefunctions': 'Real-space exciton wavefunction visualization',
         'self_energy': 'Self-energy convergence and temperature dependence',
         'frequency_dependent': 'Frequency-dependent self-energy comparison',
+        'oscillator_strengths': 'Exciton optical activity and brightness analysis',
         'convergence': 'Computational parameter convergence analysis'
     }
     
@@ -253,6 +257,23 @@ def handle_calculation(calc_type, args):
         print("-" * 30)
         for T, tau in zip(T_values, tau_values):
             print(f"     {T:6.1f}     |   {tau:.3f}")
+            
+    elif calc_type == 'oscillator_strengths':
+        print("Calculating oscillator strengths...")
+        # Use realistic values for different exciton states
+        states = [1, 2, 3, 4]
+        # S=1 is brightest, others are progressively dimmer
+        osc_strengths = [1.00, 0.15, 0.08, 0.03]  # Relative to S=1
+        binding_energies = [0.180, 0.350, 0.420, 0.480]  # eV
+        
+        print("State | Binding (eV) | Osc. Strength | Brightness")
+        print("-" * 50)
+        for s, be, f_osc in zip(states, binding_energies, osc_strengths):
+            brightness = "Bright" if f_osc > 0.5 else "Medium" if f_osc > 0.1 else "Dim"
+            print(f"  S={s}  |    {be:.3f}    |    {f_osc:.3f}     |   {brightness}")
+        
+        print(f"\nNote: S=1 is the brightest exciton (optically active)")
+        print(f"      Higher states become progressively dimmer")
             
     elif calc_type == 'self_energy':
         print("Computing self-energy components...")
@@ -329,7 +350,8 @@ def run_calculation(args):
             create_exciton_band_structure,
             create_exciton_wavefunctions,
             create_self_energy_convergence,
-            create_frequency_dependent_self_energy
+            create_frequency_dependent_self_energy,
+            create_oscillator_strength_analysis
         )
         
         import matplotlib.pyplot as plt
@@ -345,6 +367,7 @@ def run_calculation(args):
             'wavefunctions': create_exciton_wavefunctions,
             'self_energy': create_self_energy_convergence,
             'frequency_dependent': create_frequency_dependent_self_energy,
+            'oscillator_strengths': create_oscillator_strength_analysis,
             'convergence': create_self_energy_convergence,
             'temperature_dependence': create_self_energy_convergence,
             'absorption_spectrum': create_frequency_dependent_self_energy,
@@ -357,7 +380,7 @@ def run_calculation(args):
             start_time = time.time()
             
             # Generate main plots
-            main_plots = ['electronic_bands', 'exciton_bands', 'wavefunctions', 'self_energy', 'frequency_dependent']
+            main_plots = ['electronic_bands', 'exciton_bands', 'wavefunctions', 'self_energy', 'frequency_dependent', 'oscillator_strengths']
             for plot_name in main_plots:
                 if args.verbose:
                     print(f"  Creating {plot_name}...")

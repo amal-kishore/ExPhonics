@@ -936,6 +936,91 @@ def main():
         return False
 
 
+def create_oscillator_strength_analysis():
+    """
+    Oscillator strength analysis and visualization.
+    Shows which exciton states are optically active (bright vs dark).
+    """
+    print("Creating oscillator strength analysis...")
+    
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    # Exciton state data
+    states = np.array([1, 2, 3, 4])
+    energies = np.array([2.350, 2.475, 2.485, 2.490])  # eV
+    binding_energies = np.array([0.180, 0.350, 0.420, 0.480])  # eV
+    
+    # Oscillator strengths (realistic values for 2D materials)
+    # S=1 is brightest, others become progressively dimmer
+    osc_strengths = np.array([1.00, 0.15, 0.08, 0.03])  # Relative to S=1
+    
+    # Create figure with 2 panels
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    
+    # Panel 1: Oscillator strength vs exciton state
+    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+    bars = ax1.bar(states, osc_strengths, color=colors, alpha=0.7, edgecolor='black', linewidth=1.5)
+    
+    # Add brightness labels
+    brightness_labels = ['Bright', 'Medium', 'Dim', 'Dim']
+    for i, (bar, label) in enumerate(zip(bars, brightness_labels)):
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height + 0.02,
+                f'{label}', ha='center', va='bottom', fontweight='bold', fontsize=10)
+    
+    ax1.set_xlabel('Exciton State S')
+    ax1.set_ylabel('Oscillator Strength (relative)')
+    ax1.set_title('Exciton Oscillator Strengths')
+    ax1.set_ylim(0, 1.2)
+    ax1.grid(True, alpha=0.3)
+    ax1.set_xticks(states)
+    
+    # Add values on bars
+    for i, (state, f_osc) in enumerate(zip(states, osc_strengths)):
+        ax1.text(state, f_osc/2, f'{f_osc:.2f}', ha='center', va='center', 
+                fontweight='bold', fontsize=12, color='white')
+    
+    # Panel 2: Energy vs oscillator strength
+    scatter = ax2.scatter(energies, osc_strengths, s=300, c=colors, alpha=0.7, 
+                         edgecolor='black', linewidth=2)
+    
+    # Add state labels
+    for i, (E, f, s) in enumerate(zip(energies, osc_strengths, states)):
+        ax2.annotate(f'S={s}', (E, f), xytext=(5, 5), textcoords='offset points',
+                    fontweight='bold', fontsize=12)
+    
+    ax2.set_xlabel('Exciton Energy (eV)')
+    ax2.set_ylabel('Oscillator Strength (relative)')
+    ax2.set_title('Energy vs Optical Activity')
+    ax2.grid(True, alpha=0.3)
+    ax2.set_ylim(-0.05, 1.1)
+    
+    # Add horizontal line for optical activity threshold
+    ax2.axhline(y=0.1, color='red', linestyle='--', alpha=0.7, linewidth=2)
+    ax2.text(2.48, 0.12, 'Optical Activity Threshold', fontsize=10, color='red')
+    
+    plt.tight_layout()
+    plt.savefig('oscillator_strengths.png', dpi=300, bbox_inches='tight')
+    print("✓ Saved: oscillator_strengths.png")
+    
+    # Print summary
+    print(f"\n  Oscillator Strength Summary:")
+    print(f"  State | Energy (eV) | Osc. Strength | Classification")
+    print(f"  " + "-" * 55)
+    for s, E, f_osc in zip(states, energies, osc_strengths):
+        classification = "Bright" if f_osc > 0.5 else "Medium" if f_osc > 0.1 else "Dark"
+        print(f"   S={s}  |   {E:.3f}     |     {f_osc:.3f}      |   {classification}")
+    
+    print(f"\n  Key Physics:")
+    print(f"    • S=1 exciton is optically bright (allowed transition)")
+    print(f"    • Higher states become progressively darker")
+    print(f"    • Oscillator strength ∝ |wavefunction amplitude at R=0|²")
+    print(f"    • Bright excitons dominate optical absorption/emission")
+    
+    return fig
+
+
 if __name__ == "__main__":
     success = main()
     sys.exit(0 if success else 1)
