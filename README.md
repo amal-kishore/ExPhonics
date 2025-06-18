@@ -232,9 +232,9 @@ If you use this package in your research, please cite:
 ```bibtex
 @software{exphonics,
   title={ExPhonics: Exciton-Phonon Interaction Calculator},
-  author={Your Name},
+  author={Amal Kishore},
   year={2024},
-  url={https://github.com/your-username/exphonics}
+  url={https://github.com/amal-kishore/ExPhonics}
 }
 ```
 
@@ -249,6 +249,6 @@ The theoretical framework is based on:
 ## Support
 
 For questions or issues:
-- Open a GitHub issue
-- Contact: your.email@domain.com
-- Documentation: [Link to docs]
+- Open a GitHub issue at: https://github.com/amal-kishore/ExPhonics/issues
+- Contact: amalk4905@gmail.com
+- Documentation: [docs/](docs/)

@@ -34,12 +34,12 @@ dev_requirements = [
 setup(
     name="exphonics",
     version="1.0.0",
-    author="Exciton-Phonon Research Team",
-    author_email="exphonics@research.edu",
+    author="Amal Kishore",
+    author_email="amalk4905@gmail.com",
     description="Exciton-Phonon Interaction Calculator using Many-Body Perturbation Theory",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/research-team/exphonics",
+    url="https://github.com/amal-kishore/ExPhonics",
     
     packages=find_packages(),
     
@@ -83,8 +83,8 @@ setup(
     },
     
     project_urls={
-        "Bug Reports": "https://github.com/research-team/exphonics/issues",
-        "Source": "https://github.com/research-team/exphonics",
+        "Bug Reports": "https://github.com/amal-kishore/ExPhonics/issues",
+        "Source": "https://github.com/amal-kishore/ExPhonics",
         "Documentation": "https://exphonics.readthedocs.io/",
     },
     

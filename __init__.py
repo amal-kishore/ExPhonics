@@ -14,8 +14,8 @@ Main functions:
 """
 
 __version__ = "1.0.0"
-__author__ = "Exciton-Phonon Research Team"
-__email__ = "exphonics@research.edu"
+__author__ = "Amal Kishore"
+__email__ = "amalk4905@gmail.com"
 
 # Import main functions for easy access
 try:
@@ -41,7 +41,7 @@ except ImportError:
 
 # Package metadata
 __description__ = "Exciton-Phonon Interaction Calculator using Many-Body Perturbation Theory"
-__url__ = "https://github.com/research-team/exphonics"
+__url__ = "https://github.com/amal-kishore/ExPhonics"
 __license__ = "MIT"
 
 # Physical constants used throughout the package
